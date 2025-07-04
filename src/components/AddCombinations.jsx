@@ -1,8 +1,8 @@
-function ColorInputs() {
+function AddCombinations() {
     return 
         <>
         <h1>Hello</h1>
         </>
 }
 
-export default ColorInputs
+export default AddCombinations
