@@ -12,7 +12,6 @@ function AddCombinations() {
         setStatus("Processing...");
 
         try {
-            // 1. Call Gemini API with user input
             const geminiResponse = await fetch(
                 "http://localhost:5000/api/gemini",
                 {
@@ -25,9 +24,8 @@ function AddCombinations() {
                 }
             );
 
-            const combos = await geminiResponse.json(); // assume it's an array
+            const combos = await geminiResponse.json();
 
-            // 2. Save each combo to DB
             for (const combo of combos) {
                 console.log(combo);
                 await fetch("http://localhost:5000/api/combinations", {
