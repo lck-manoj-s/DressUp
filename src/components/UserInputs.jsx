@@ -7,6 +7,9 @@ function UserInputs() {
 
     return (
         <div className="w-full px-4">
+            <div className="p-3 bg-yellow-100 text-yellow-800 border border-yellow-300 rounded text-sm text-center mb-5">
+                ⚠️ All colors may not be perfectly accurate. Suggestions might vary based on personal preferences.
+            </div>
             <h2 className="text-lg text-center font-semibold mb-5 text-blue-600">
                 Try with what you have
             </h2>
