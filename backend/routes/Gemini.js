@@ -1,8 +1,9 @@
+require("dotenv").config();
 const express = require("express");
 const router = express.Router();
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
-const genAI = new GoogleGenerativeAI("AIzaSyAK4CC2kM6WKy-dqNzi3bvUSAyt284qo9E");
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 router.post("/", async (req, res) => {
     const { shirtColors, pantColors } = req.body;
