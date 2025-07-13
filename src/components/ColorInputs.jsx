@@ -1,23 +1,41 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 
 function ColorInputs() {
     const [shirtInput, setShirtInput] = useState("");
     const [pantInput, setPantInput] = useState("");
     const [combos, setCombos] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(false);
+    const [status, setStatus] = useState("");
 
     const handleSubmit = async () => {
-        if (!shirtInput || !pantInput) return;
-        setLoading(true);
+        const shirt = shirtInput.trim();
+        const pant = pantInput.trim();
+
+        if (!shirt && !pant) {
+            setStatus("Please enter at least one shirt and one pant color");
+            setError(true);
+            return;
+        } else if (!shirt) {
+            setStatus("Please enter shirt colors");
+            setError(true);
+            return;
+        } else if (!pant) {
+            setError(true);
+            setStatus("Please enter pant colors");
+            return;
+        }
+
+        setStatus("Processing...");
         setCombos([]);
+        
 
         try {
             const res = await fetch("http://localhost:5000/api/colors", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    shirtColors: shirtInput,
-                    pantColors: pantInput,
+                    shirtColors: shirt,
+                    pantColors: pant,
                 }),
             });
 
@@ -27,11 +45,13 @@ function ColorInputs() {
                 setCombos(data.combos.slice(0, 6));
                 setShirtInput("");
                 setPantInput("");
+                setStatus("");
+            } else {
+                setStatus("No combinations found.");
             }
         } catch (err) {
             console.error("Combo fetch failed", err);
-        } finally {
-            setLoading(false);
+            setStatus("Error fetching suggestions.");
         }
     };
 
@@ -48,6 +68,7 @@ function ColorInputs() {
                         placeholder="Enter upto 5 shirt colors separated by comma"
                         value={shirtInput}
                         onChange={(e) => setShirtInput(e.target.value)}
+                        required
                     />
                 </div>
 
@@ -60,6 +81,7 @@ function ColorInputs() {
                         placeholder="Enter upto 5 pant colors separated by comma"
                         value={pantInput}
                         onChange={(e) => setPantInput(e.target.value)}
+                        required
                     />
                 </div>
 
@@ -70,9 +92,9 @@ function ColorInputs() {
                     Get Suggestions
                 </button>
             </div>
-            {loading && (
-                <p className="text-sm text-blue-500 font-medium mb-4">
-                    Processing...
+            {status && (
+                <p className={`text-sm font-medium mb-4 ${error? "text-red-500": "text-green-500"}`}>
+                    {status}
                 </p>
             )}
             {combos.length > 0 && (

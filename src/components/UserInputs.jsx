@@ -8,7 +8,8 @@ function UserInputs() {
     return (
         <div className="w-full px-4">
             <div className="p-3 bg-yellow-100 text-yellow-800 border border-yellow-300 rounded text-sm text-center mb-5">
-                ⚠️ All colors may not be perfectly accurate. Suggestions might vary based on personal preferences.
+                ⚠️ All colors may not be perfectly accurate. Suggestions might
+                vary based on personal preferences.
             </div>
             <h2 className="text-lg text-center font-semibold mb-5 text-blue-600">
                 Try with what you have
@@ -26,7 +27,11 @@ function UserInputs() {
                         Enter Colors
                     </button>
                     <button
-                        onClick={() => setMode("image")}
+                        onClick={() => {
+                            setMode("image")
+                            alert("Please upload images that clearly show only the shirt or pant, with minimal background for better color detection.");
+
+                        }}
                         className={`px-4 py-2 rounded-md border text-sm font-medium transition ${
                             mode === "image"
                                 ? "bg-blue-600 text-white border-blue-600"

@@ -7,7 +7,6 @@ function ImageInputs() {
     const [loading, setLoading] = useState(false);
 
     const handleFileChange = (e, type) => {
-        alert("Upload image containing only shirt or pant without background noise");
         const files = Array.from(e.target.files).slice(0, 5);
         if (type === "shirt") setShirtImages(files);
         else setPantImages(files);
@@ -31,6 +30,7 @@ function ImageInputs() {
             const data = await res.json();
 
             if (res.ok && Array.isArray(data.combos)) {
+                console.log("Received combos:", data.combos);
                 setCombos(data.combos.slice(0, 6));
             }
         } catch (err) {
@@ -42,6 +42,9 @@ function ImageInputs() {
 
     return (
         <div className="space-y-8 flex flex-col items-center w-full">
+            <div className="p-3 bg-yellow-100 text-yellow-800 border border-yellow-300 rounded text-sm text-center">
+                ⚠️ This is a beta version
+            </div>
             <div className="w-full max-w-md space-y-6 mb-5">
                 <div>
                     <label className="block mb-2 text-blue-400 font-medium text-lg">

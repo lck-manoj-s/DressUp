@@ -7,7 +7,22 @@ function AddCombinations() {
     const [statusType, setStatusType] = useState("");
 
     const handleSubmit = async () => {
-        if (!shirtInput.trim() || !pantInput.trim()) return;
+        const shirt = shirtInput.trim();
+        const pant = pantInput.trim();
+
+        if (!shirt && !pant) {
+            setStatus("Please enter at least one shirt and one pant color");
+            setStatusType("error");
+            return;
+        } else if (!shirt) {
+            setStatus("Please enter shirt colors");
+            setStatusType("error");
+            return;
+        } else if (!pant) {
+            setStatusType("error");
+            setStatus("Please enter pant colors");
+            return;
+        }
 
         setStatus("Processing...");
 
@@ -27,18 +42,28 @@ function AddCombinations() {
             const combos = await geminiResponse.json();
 
             for (const combo of combos) {
-                console.log(combo);
-                await fetch("http://localhost:5000/api/combinations", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        shirtColor: combo.shirtColor,
-                        shirtHex: combo.shirtHex,
-                        pantColor: combo.pantColor,
-                        pantHex: combo.pantHex,
-                        source: "user",
-                    }),
-                });
+                const res = await fetch(
+                    "http://localhost:5000/api/combinations",
+                    {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            shirtColor: combo.shirtColor,
+                            shirtHex: combo.shirtHex,
+                            pantColor: combo.pantColor,
+                            pantHex: combo.pantHex,
+                            source: "user",
+                        }),
+                    }
+                );
+
+                const data = await res.json();
+
+                if (res.status === 409) {
+                    setStatus(data.message);
+                    setStatusType("error");
+                    return;
+                }
             }
 
             setStatusType("success");
@@ -106,9 +131,9 @@ function AddCombinations() {
             {status && (
                 <p
                     className={`text-sm ${
-                        statusType === "success"
-                            ? "text-green-600"
-                            : "text-red-600"
+                        statusType === "error"
+                            ? "text-red-600"
+                            : "text-green-600"
                     }`}
                 >
                     {status}
