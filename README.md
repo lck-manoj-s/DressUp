@@ -1,12 +1,153 @@
-# React + Vite
+# DressUp
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Table of Contents
+- [Overview](#overview)
+- [Technology Stack](#technology-stack)
+- [Features](#features)
+- [Project Structure](#project-structure)
+- [Installation](#installation)
+- [Usage](#usage)
 
-Currently, two official plugins are available:
+## Overview
+DressUp is a full-stack web application that helps users select matching shirt and pant color combinations. The app supports two input methods:
+1. Typing plain color names.
+   
+2. Uploading shirt and pant images.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+It suggests combinations from an existing database or uses Gemini AI to generate new ones, and stores them for future use.
 
-## Expanding the ESLint configuration
+## Technology Stack
+### 1. 💻 Frontend
+- **React.js** – UI library for building interactive user interfaces.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **Tailwind CSS** – Utility-first CSS framework for styling.
+
+- **JavaScript (ES6+)** – Core scripting language.
+
+- **Fetch API** – For client-server communication (API calls).
+
+### 2. 🖼️ Image Processing
+- **Color Thief** – Extracts the dominant color from shirt/pant images.
+
+- **color-namer** – Maps hex colors to human-readable color names.
+
+### 3. 🤖 AI Integration
+- **Gemini API** – Validates and filters shirt-pant combinations based on fashion suitability.
+
+### 4. 🌐 Backend
+- **Node.js** – Runtime environment for running JavaScript on the server.
+
+- **Express.js** – Web framework for building REST APIs.
+
+- **Multer** – Middleware for handling file uploads.
+
+### 5. 🛢️ Database
+- **MongoDB** – NoSQL database to store shirt-pant color combinations.
+
+- **Mongoose** – ODM to define schemas and interact with MongoDB easily.
+
+## Features
+- 🎨 Dual Input Mode: Text or Image
+
+- 🔍 Color extraction from images using Color Thief
+
+- 🧠 AI-powered matching using Gemini API
+
+- 💾 MongoDB for storing and retrieving combos
+
+- ⚡ Responsive UI using Tailwind CSS
+
+- 🛠️ Validation and error handling for better UX
+  
+## Project Structure
+```
+dressup/
+├── backend/
+|   ├── config
+|   |    └── db.js
+├── middleware/
+│   │   └── upload.js
+│   ├── models/
+│   │   └── Combination.js
+│   ├── routes/
+│   │   ├── Colors.js
+│   │   ├── ImageColors.js
+│   │   ├── Gemini.js
+│   │   └── Combinations.js
+│   ├── utils/
+│   │   ├── colorExtractor.js
+│   │   └── geminiHelper.js
+│   └── server.js
+├── src/
+│   ├── components/
+│   │   ├── ColorInputs.jsx
+│   │   ├── ImageInputs.jsx
+│   │   ├── UserInputs.jsx
+│   │   ├── AddCombinations.jsx
+│   │   ├── Header.jsx
+│   │   ├── Footer.jsx
+│   │   └── Suggestion.jsx
+│   ├── index.html
+│   └── App.jsx
+└── README.md
+```
+### Backend
+- `config/db.js`: Connects to the MongoDB database.
+- `middleware/upload.js`: Handles file uploads via multer.
+- `models/Combination.js`: Mongoose schema/model for storing shirt-pant combinations.
+- `routes/Colors.js`: Handles API routes for text-based color combo suggestions.
+- `routes/ImageColors.js`: Handles API routes for image-based combo extraction and suggestions.
+- `routes/Gemini.js`: Interacts with Gemini API to generate new combinations.
+- `routes/Combinations.js`: Manages adding/retrieving combinations to/from the database.
+- `utils/colorExtractor.js`: Extracts dominant color and name from an image using Color Thief.
+- `utils/geminiHelper.js`: Sends shirt-pant pairs to Gemini and retrieves filtered suggestions.
+- `server.js`: Entry point of the backend server; sets up middleware, routes, and DB connection.
+
+### Frontend
+- `components/ColorInputs.jsx`: UI component for entering shirt and pant colors as text.
+- `components/ImageInputs.jsx`: UI component for uploading shirt and pant images.
+- `components/UserInputs.jsx`: Switches between Color and Image input modes and renders relevant input components.
+- `components/AddCombinations.jsx`: user utility to add new combinations manually and help public in making use of those combos.
+- `components/Header.jsx`: Top navigation bar with buttons to switch input modes.
+- `components/Footer.jsx`: Simple footer section of the website.
+- `components/Suggestion.jsx`: Handles displaying of the new combos generated by AI and pubic.
+- `index.html`: HTML template used by the frontend build.
+- `App.jsx`: Main React component that renders the layout and handles routing/UI logic.
+  
+## Installation
+### 1. Clone the repository
+`git clone https://github.com/yourusername/DressUp.git`
+
+### 2. Install Backend Dependencies
+```
+cd backend
+npm install
+```
+
+### 3.Install Frontend Dependencies
+```
+cd ..
+npm install
+```
+
+### 4. Setup Environment Variables
+In backend, create a .env file with:
+
+```
+PORT=5000
+MONGO_URI=your_mongodb_connection_string
+GEMINI_API_KEY=your_google_generative_ai_key
+```
+
+## Usage
+### 1. Start the backend
+```
+cd backend
+node server.js
+```
+
+### 2. Start the frontend
+```
+npm run dev
+```
+### 3. Open the browser and dressup well
