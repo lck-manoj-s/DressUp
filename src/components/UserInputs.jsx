@@ -1,9 +1,7 @@
-import { useState } from "react";
 import ColorInputs from "./ColorInputs";
 import ImageInputs from "./ImageInputs";
 
-function UserInputs() {
-    const [mode, setMode] = useState("color");
+function UserInputs({mode, setMode}) {
 
     return (
         <div className="w-full px-4">

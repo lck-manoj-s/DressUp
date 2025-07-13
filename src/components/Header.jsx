@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../App.css";
 
-function Header() {
+function Header({ mode, setMode }) {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
@@ -12,24 +12,31 @@ function Header() {
                 </div>
 
                 <nav className="hidden md:flex space-x-6 mr-4">
-                    <a
-                        href="#"
-                        className="text-gray-600 hover:text-blue-500 transition"
-                    >
-                        Home
-                    </a>
-                    <a
-                        href="#"
-                        className="text-gray-600 hover:text-blue-500 transition"
+                    <button
+                        onClick={() => setMode("color")}
+                        className={`text-sm font-medium ${
+                            mode === "color"
+                                ? "text-blue-600 font-semibold"
+                                : "text-gray-600"
+                        } hover:text-blue-500 transition`}
                     >
                         Colors
-                    </a>
-                    <a
-                        href="#"
-                        className="text-gray-600 hover:text-blue-500 transition"
+                    </button>
+                    <button
+                        onClick={() => {
+                            setMode("image");
+                            alert(
+                                "Please upload images that clearly show only the shirt or pant, with minimal background for better color detection."
+                            );
+                        }}
+                        className={`text-sm font-medium ${
+                            mode === "image"
+                                ? "text-blue-600 font-semibold"
+                                : "text-gray-600"
+                        } hover:text-blue-500 transition`}
                     >
                         Photos
-                    </a>
+                    </button>
                 </nav>
 
                 <button

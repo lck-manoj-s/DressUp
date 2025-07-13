@@ -4,15 +4,17 @@ import Footer from "./components/Footer";
 import Suggestion from "./components/Suggestion";
 import AddCombinations from "./components/AddCombinations";
 import UserInputs from "./components/UserInputs"
+import { useState } from "react";
 
 function App() {
+    const [mode, setMode] = useState("color");
     return (
         <div className="flex flex-col min-h-screen">
-            <Header />
+            <Header mode={mode} setMode={setMode}/>
 
             <div className="min-h-screen flex">
                 <div className="w-3/5 bg-gray-100 p-4">
-                    <UserInputs />
+                    <UserInputs mode={mode} setMode={setMode}/>
                 </div>
 
                 <div className="w-2/5 flex flex-col">
