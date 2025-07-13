@@ -65,7 +65,7 @@ dressup/
 ├── backend/
 |   ├── config
 |   |    └── db.js
-├── middleware/
+|   ├── middleware/
 │   │   └── upload.js
 │   ├── models/
 │   │   └── Combination.js
